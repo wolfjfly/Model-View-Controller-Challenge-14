@@ -26,7 +26,7 @@
   handlebars: "^4.7.6",   
   mysql2: "^2.2.5",   
   sequelize": "^6.3.5"    
-  
+  nodemon: "^2.0.20"
 
   ## Usage
   npm i
