@@ -1,0 +1,22 @@
+[
+    {
+        "post_title": "seed post 1",
+        "post_body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "user_id": 1
+    },
+    {
+        "post_title": "seed post 2",
+        "post_body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim nunc faucibus a pellentesque sit amet porttitor.",
+        "user_id": 2
+    },
+    {
+        "post_title": "seed post 3",
+        "post_body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu dui vivamus arcu felis bibendum. Pellentesque dignissim enim sit amet venenatis.",
+        "user_id": 3
+    },
+    {
+        "post_title": "seed post 4",
+        "post_body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam vel quam elementum pulvinar etiam. Consequat semper viverra nam libero justo. Feugiat scelerisque varius morbi enim nunc faucibus a. Pellentesque pulvinar pellentesque habitant morbi tristique senectus et netus. Lectus quam id leo in vitae turpis. Consectetur purus ut faucibus pulvinar elementum. Non enim praesent elementum facilisis leo vel fringilla est ullamcorper. Egestas purus viverra accumsan in nisl nisi scelerisque eu ultrices. Ullamcorper eget nulla facilisi etiam.\n Dictum sit amet justo donec enim diam. Leo vel orci porta non pulvinar neque laoreet suspendisse interdum. Magna fermentum iaculis eu non diam phasellus vestibulum. Ut faucibus pulvinar elementum integer. Viverra suspendisse potenti nullam ac tortor. Sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus. Placerat in egestas erat imperdiet sed euismod nisi. Euismod quis viverra nibh cras pulvinar mattis nunc sed. Ac turpis egestas sed tempus. At elementum eu facilisis sed odio morbi quis.",
+        "user_id": 3
+    }
+]

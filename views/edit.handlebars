@@ -1,0 +1,31 @@
+<div class="containter-fluid h-1">
+    <div class="card mt-3">
+        <h2>{{post_title}}</h2>
+        <span id="user-created">Created By: {{user.username}}</span><br>
+        <span id="date-created"><u>{{format_date date_created}}</u></span>
+        <div class="card-body">
+            {{post_body}}
+        </div>
+    </div>
+</div>
+
+<div class="container-sm text-center d-flex flex-column align-items-center justify-content-center">
+    <h2 style="text-center"> EDIT THIS POST </h2>
+        <form class="login-form">
+            <div class="form-outline mb-4">
+                <label class="form-label" for="title">New Post Title</label>
+                <input type="text" id="title" class="form-control" />
+            </div>
+            <div class="form-outline mb-4">
+                <label class="form-label" for="body">New Post Text</label>
+                <textarea row="10" id="body" class="form-control"></textarea>
+            </div>
+        </form>
+        <button type="submit" id="create-post" class="btn btn-primary btn-block mb-4">Edit Post</button>
+        <h2 style="text-center"> DELETE THIS POST </h2>
+        <button type="submit" id="delete-post" class="btn btn-danger btn-block mb-4">Delete Post</button>
+    </div>
+
+<span style="display:none" id="post-id">{{id}}</span>
+
+<script src="/js/edit.js"></script>
