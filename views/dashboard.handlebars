@@ -1,0 +1,41 @@
+<head><title>Your Dashboard</title></head>
+<div class="container-center d-flex justify-content-center align-items-center flex-column">
+    {{#if posts.length}}
+    <div class="container-fluid">
+    {{#each posts as |post|}}
+    <div class="card mt-3">
+        <a href="/post/{{id}}">
+        <div class="card-header">
+            <h2 id="post-title">{{post_title}}</h2>
+            <span id="user-created">Created By: {{post.user.username}}</span><br>
+            <span id="date-created">On: {{format_date date_created}}</span>
+        </div></a>
+        {{!-- <div class="card-body">
+            {{post_body}}
+        </div> --}}
+    </div>
+    <button type="submit">
+        <a href="/dashboard/edit/{{id}}">Edit</a>
+    </button>
+    {{/each}}
+</div>
+    {{else}}
+    <h4 class="text-center">You do not currently have any posts.</h4>
+    {{/if}}
+</div>
+        <div class="container-sm text-center d-flex flex-column align-items-center justify-content-center">
+            <h2>New Post</h2>
+        <form class="login-form">
+            <div class="form-outline mb-4">
+                <label class="form-label" for="title">Title</label>
+                <input type="text" id="title" class="form-control" />
+            </div>
+            <div class="form-outline mb-4">
+                <label class="form-label" for="body">Text</label>
+                <textarea row="10" id="body" class="form-control"></textarea>
+            </div>
+        </form>
+        <button type="submit" id="create-post" class="btn btn-primary btn-block mb-4">Create Post</button>
+    </div>
+
+<script src="/js/new.js"><script>

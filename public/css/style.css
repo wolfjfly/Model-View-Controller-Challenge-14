@@ -48,10 +48,20 @@ aside {
   text-align: left;
   color: var(--light);
 }
-
-nav {
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.nav{
   display: flex;
-  background-color: var(--secondary);
+  flex-direction: row;
+  font-size: 25px;
+}
+nav {
+  display: inline-flex;
+  flex-direction: row;
+  background: var(--primary);
 }
 
 nav a {
@@ -59,11 +69,6 @@ nav a {
   padding: 14px 20px;
   text-decoration: none;
   text-align: center;
-}
-
-nav a:hover {
-  color: var(--secondary);
-  background-color: var(--dark);
 }
 
 .gallery {
@@ -128,7 +133,10 @@ img {
   color: var(--light);
 }
 
-.card header {
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   color: var(--light);
   font-weight: bold;
   text-transform: uppercase;
