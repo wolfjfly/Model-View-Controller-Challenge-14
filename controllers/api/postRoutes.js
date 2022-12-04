@@ -1,14 +1,12 @@
 const router = require("express").Router();
-const { Post, User, Comment } = require("../../models/");
+const { Post } = require("../../models/");
 const withAuth = require("../../utils/auth");
 
 router.post("/", withAuth, async (req, res) => {
+const body = req.body;
+
 try {
-    const newPost = await Post.create({
-    post_title: req.body.title,
-    post_body: req.body.body,
-    user_id: req.session.user_id,
-    });
+    const newPost = await Post.create({ ...body, userId: req.session.userId });
     res.json(newPost);
 } catch (err) {
     res.status(500).json(err);
@@ -17,38 +15,34 @@ try {
 
 router.put("/:id", withAuth, async (req, res) => {
 try {
-    console.log(
-    req.body.title,
-    req.body.body,
-    req.session.user_id,
-    req.params.id
-    );
-    const postData = await Post.update(
-    {
-        post_title: req.body.title,
-        post_body: req.body.body,
-        user_id: req.session.user_id,
-    },
-    {
-        where: {
+    const [affectedRows] = await Post.update(req.body, {
+    where: {
         id: req.params.id,
-        },
+    },
+});
+
+    if (affectedRows > 0) {
+    res.status(200).end();
+    } else {
+    res.status(404).end();
     }
-    );
-    console.log(postData);
-    res.status(200).json(postData);
 } catch (err) {
     res.status(500).json(err);
 }
 });
 
-router.delete("/:id", withAuth, (req, res) => {
+router.delete("/:id", withAuth, async (req, res) => {
 try {
-    Post.destroy({
+    const [affectedRows] = Post.destroy({
     where: {
         id: req.params.id,
     },
     });
+    if (affectedRows > 0) {
+    res.status(200).end();
+    } else {
+    res.status(404).end();
+    }
 } catch (err) {
     res.status(500).json(err);
 }

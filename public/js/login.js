@@ -4,7 +4,7 @@ const loginFormHandler = async (event) => {
 
   // Gather the data from the form elements on the page
   const username = document.querySelector('#username').value.trim();
-  const password = document.querySelector('#password-login').value.trim();
+  const password = document.querySelector('#passwordLogin').value.trim();
 
   if (username && password) {
     
@@ -13,8 +13,8 @@ const loginFormHandler = async (event) => {
       body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' },
     });
-    console.log({username});
-    console.log({password});
+    console.log("username",{username});
+    console.log("password",{password});
     if (response.ok) {
       document.location.replace('/');
     } else {
@@ -24,5 +24,5 @@ const loginFormHandler = async (event) => {
 };
 
 document
-  .querySelector('.login-form')
+  .querySelector('.loginForm')
   .addEventListener('submit', loginFormHandler);

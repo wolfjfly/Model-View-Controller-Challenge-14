@@ -19,16 +19,13 @@ router.get('/', withAuth, async (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  // If a session exists, redirect the request to the homepage
+  // If a session exists, redirect the request to the home
   if (req.session.logged_in) {
     res.redirect('/');
     return;
   }
-
   res.render('login');
 });
-
-module.exports = router;
 
 // GET all posts for homepage
 router.get('/', withAuth, async (req, res) => {
@@ -41,11 +38,9 @@ router.get('/', withAuth, async (req, res) => {
         },
       ],
     });
-
     const posts = dbpostData.map((post) =>
       post.get({ plain: true })
     );
-
     res.render('homepage', {
       posts,
     });
@@ -78,6 +73,10 @@ router.get('/post/:id', withAuth, async (req, res) => {
     console.log(err);
     res.status(500).json(err);
   }
+});
+
+router.get('/dashboard/new', withAuth, (req, res) => {
+  res.render('new');
 });
 
 router.get('/signup', (req, res) => {

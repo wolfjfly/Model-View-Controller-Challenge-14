@@ -32,21 +32,16 @@ router.post("/login", async (req, res) => {
         .json({ message: "Incorrect username or password, please try again" });
       return;
     }
-    console.log("made it here3")
     const validPassword = await userdb.checkPassword(req.body.password);
-    console.log("made it here")
     if (!validPassword) {
-      console.log("made it here2")
       res
         .status(400)
         .json({ message: "Incorrect username or password, please try again" });
       return;
     }
-
     req.session.save(() => {
       req.session.user_id = userdb.id;
       req.session.logged_in = true;
-
       res.json({ user: userdb, message: "You are now logged in!" });
     });
   } catch (err) {
