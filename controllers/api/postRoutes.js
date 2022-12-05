@@ -6,12 +6,7 @@ const withAuth = require('../../utils/auth');
 // get all users
 router.get('/', (req, res) => {
   Post.findAll({
-      attributes: [
-        'id',
-        'content',
-        'title',
-        'created_at'
-      ],
+      attributes: ['id', 'post_body', 'post_title', 'date_created'],
       order: [
         ["created_at", "DESC"]
       ],
@@ -21,7 +16,7 @@ router.get('/', (req, res) => {
         },
         {
           model: Comment,
-          attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+          attributes: ['id', 'comment_body', 'post_id', 'user_id', 'date_created'],
           include: {
             model: User,
             attributes: ['username'],
@@ -41,10 +36,10 @@ router.get('/:id', (req, res) => {
       where: {
         id: req.params.id
       },
-      attributes: ['id', 'content', 'title', 'created_at'],
+      attributes: ['id', 'post_body', 'post_title', 'date_created'],
       include: [{
           model: Comment,
-          attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+          attributes: ['id', 'comment_body', 'post_id', 'user_id', 'date_created'],
           include: {
             model: User,
             attributes: ['username']
@@ -73,7 +68,6 @@ router.get('/:id', (req, res) => {
 
 // Create a post
 router.post('/', withAuth, (req, res) => {
-  // expects {title: 'Taskmaster goes public!', post_url: 'https://taskmaster.com/press', user_id: 1}
   Post.create({
       title: req.body.title,
       content: req.body.content,

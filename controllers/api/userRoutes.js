@@ -30,11 +30,11 @@ router.get('/:id', (req, res) => {
       },
       include: [{
           model: Post,
-          attributes: ['id', 'title', 'content', 'created_at']
+          attributes: ['id', 'post_title', 'post_body', 'date_created']
         },
         {
           model: Comment,
-          attributes: ['id', 'comment_text', 'created_at'],
+          attributes: ['id', 'comment_body', 'date_created'],
           include: {
             model: Post,
             attributes: ['title']
@@ -60,7 +60,6 @@ router.get('/:id', (req, res) => {
 // Create a user
 router.post('/', (req, res) => {
   console.log(req.body)
-  // expects {username: 'Lernantino', password: 'password1234'}
   User.create({
       username: req.body.username,
       password: req.body.password
@@ -70,7 +69,6 @@ router.post('/', (req, res) => {
         req.session.user_id = dbUserData.id;
         req.session.username = dbUserData.username;
         req.session.loggedIn = true;
-
         res.json(dbUserData);
       });
     })
@@ -82,7 +80,7 @@ router.post('/', (req, res) => {
 
 //login
 router.post('/login', (req, res) => {
-  // expects {username: 'lmartin442', password: 'password1234'}
+  console.log('here1')
   User.findOne({
     where: {
       username: req.body.username
@@ -94,9 +92,7 @@ router.post('/login', (req, res) => {
       });
       return;
     }
-
     const validPassword = dbUserData.checkPassword(req.body.password);
-
     if (!validPassword) {
       res.status(400).json({
         message: 'Incorrect password!'

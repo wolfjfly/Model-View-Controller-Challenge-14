@@ -5,7 +5,7 @@ const withAuth = require('../../utils/auth');
 //Get all comments
 router.get('/', (req, res) => {
     Comment.findAll({
-        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at']
+        attributes: ['id', 'comment_body', 'post_id', 'user_id', 'date_created']
 
     })
         .then(dbCommentData => res.json(dbCommentData))
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     Comment.findByPk(
         req.params.id, {
-        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+        attributes: ['id', 'comment_body', 'post_id', 'user_id', 'date_created'],
         include: [{
             model: User,
             attributes: ['username']
@@ -86,13 +86,7 @@ router.delete('/:id', withAuth, (req, res) => {
 
 router.put('/:id', withAuth, (req, res) => {
     Comment.put(req.params.id, {
-        attributes: [
-            'id',
-            'comment_text',
-            'post_id',
-            'user_id',
-            'created_at'
-        ],
+        attributes: ['id', 'comment_body', 'post_id', 'user_id', 'date_created'],
         include: {
             model: User,
             attributes: ['username']

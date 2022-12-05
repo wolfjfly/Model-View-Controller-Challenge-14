@@ -9,10 +9,10 @@ router.get('/', withAuth, (req, res) => {
       where: {
         user_id: req.session.user_id
       },
-      attributes: ['id', 'title', 'content', 'created_at'],
+      attributes: ['id', 'post_title', 'post_body', 'date_created'],
       include: [{
           model: Comment,
-          attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+          attributes: ['id', 'comment_body', 'post_id', 'user_id', 'date_created'],
           include: {
             model: User,
             attributes: ['username']
@@ -41,10 +41,10 @@ router.get('/', withAuth, (req, res) => {
 
 router.get('/edit/:id', withAuth, (req, res) => {
   Post.findByPk(req.params.id, {
-      attributes: ['id', 'title', 'content', 'created_at'],
+      attributes: ['id', 'post_title', 'post_body', 'date_created'],
       include: [{
           model: Comment,
-          attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+          attributes: ['id', 'comment_body', 'post_id', 'user_id', 'date_created'],
           include: {
             model: User,
             attributes: ['username']
