@@ -1,27 +1,24 @@
-<div class="container-center">
-    <h4>Create New Post</h4>
+<a href="/dashboard" class="go-back"> &larr; Back to dashboard</a>
 
-    <form id="newPost" class="newPost">
-        <label for="title">
-            Title:
-        </label>
-        <br />
-        <input id="post_title" name="post_title" rows="1" cols="auto">
-        {{post_title}}
-        </input>
-        <br />
-        <label for="Content">
-            Content:
-        </label>
-        <br />
-        <textarea id="post_body" name="post_body" rows="5" cols="120">
-        {{post_body}}
-        </textarea>
-        <br />
-        <button type="submit" value="Submit">
-            Submit
-        </button>
-    </form>
-</div>
+<article class="new-page">
+    <section class="new-form-page">
+        <div class="form-heading">
+            <h2>Create New Blog Post</h2>
+        </div>
+        <div class="form-section">
+            <form class="new-post-form">
+                <div class="post-title-section">
+                    <label for="post-title">Title</label>
+                    <input type="text" id="post-title" name="post-title" />
+                </div>
+                <div class="post-content">
+                    <label for="post-content">Content</label>
+                    <textarea class="entry-field" id="post-content" name="post-content"></textarea>
+                </div>
+                <button type="submit" class="btn">Create</button>
+            </form>
+        </div>
+    </section>
+</article>
 
-<script src="/js/new.js"></script>
+<script src="/javascript/post.js"></script>

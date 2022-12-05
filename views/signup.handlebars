@@ -1,16 +1,24 @@
-<div class="container-sm text-center d-flex flex-column align-items-center justify-content-center">
-    <h2>Sign Up!</h2>
-    <form class="signup-form" type="submit">
-        <div class="form-outline mb-4">
-            <label class="form-label" for="username">Username</label>
-            <input type="text" id="username" class="form-control" />
-        </div>
-        <div class="form-outline mb-4">
-            <label class="form-label" for="password">Password</label>
-            <input type="password" id="password" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-primary btn-block mb-4">Sign Up!</button>
-    </form>
-</div>
+<section class="sign-in-page">
+    <div class="form-heading">
+        <h1>Sign Up</h1>
+    </div>
+    <div class="form-section">
+        <form class="signup-form">
+            <div>
+                <label for="username-signup">Select a Username</label>
+                <input type="text" class="entry-field" id="username-signup" />
+            </div>
+            <div>
+                <label for="password-signup">Select a password</label>
+                <input type="password" class="entry-field" id="password-signup" />
+            </div>
+            <div>
+                <button type="submit" class="login-signup-btn">Sign Up!</button>
+            </div>
+        </form>
+    </div>
 
-<script src="/js/signup.js"></script>
+    <a href="/login" class="login-link">Login Instead</a>
+</section>
+
+<script src="/javascript/signup.js"></script>

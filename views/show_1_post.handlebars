@@ -1,31 +1,23 @@
-<div class="containter-fluid h-1">
-    <div class="card mt-3">
-        <h2>{{post_title}}</h2>
-        <span id="user-created">Created By: {{user.username}}</span><br>
-        <span id="date-created"><u>{{format_date date_created}}</u></span>
-        <p>{{post_body}}</p>
-    </div>
-    <h3 style="margin-top: 5%">Comments</h3>
-    {{#each comments as |comment|}}
-    <div style="border: 1px solid black; width: 50%">
-        <h5>Comment by: {{comment.user.username}}</h5><span>on: {{format_date comment.date_created}}</span>
-        <p>{{comment.comment_body}}</p>
-    </div>
-    {{/each}}
-    {{#if logged_in}}
-    <div class="container-fluid">
-        <form>
-            <textarea type="text" id="comment-text" style="margin-top: 5%" placeholder="comment here"></textarea>
-            <button id="comment-btn" style="display:block">Add Comment</button>
-        </form>
-    </div>
-    {{else}}
-    <div style="margin-top: 5%">
-        <h5>Please <a href="/login">login</a> to comment on this post</h5>
-    </div>
-    {{/if}}
-</div>
+<a href="/dashboard" class="go-back"> &larr; Back to dashboard</a>
+<br>
+<br>
 
-<span style="display:none" id="post-id">{{id}}</span>
+{{> post-info post}}
 
-<script src="/js/comment.js"></script>
+{{#if loggedIn}}
+<form class="comment-form">
+    <div>
+        <textarea name="comment-body"></textarea>
+    </div>
+
+    <div>
+        <button type="submit">Add Comment</button>
+    </div>
+</form>
+{{/if}}
+
+{{> comments post.comments}}
+
+{{#if loggedIn}}
+<script src="/javascript/comment.js"></script>
+{{/if}}
