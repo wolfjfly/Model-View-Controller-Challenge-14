@@ -1,51 +1,137 @@
-const router = require("express").Router();
-const { Post } = require("../../models/");
-const withAuth = require("../../utils/auth");
+const router = require('express').Router();
+const sequelize = require('../../config/connection');
+const {Post, User, Comment} = require('../../models');
+const withAuth = require('../../utils/auth');
 
-router.post("/", withAuth, async (req, res) => {
-const body = req.body;
-
-try {
-    const newPost = await Post.create({ ...body, userId: req.session.userId });
-    res.json(newPost);
-} catch (err) {
-    res.status(500).json(err);
-}
-});
-
-router.put("/:id", withAuth, async (req, res) => {
-try {
-    const [affectedRows] = await Post.update(req.body, {
-    where: {
-        id: req.params.id,
-    },
-});
-
-    if (affectedRows > 0) {
-    res.status(200).end();
-    } else {
-    res.status(404).end();
-    }
-} catch (err) {
-    res.status(500).json(err);
-}
-});
-
-router.delete("/:id", withAuth, async (req, res) => {
-try {
-    const [affectedRows] = Post.destroy({
-    where: {
-        id: req.params.id,
-    },
+// get all users
+router.get('/', (req, res) => {
+  Post.findAll({
+      attributes: [
+        'id',
+        'content',
+        'title',
+        'created_at'
+      ],
+      order: [
+        ["created_at", "DESC"]
+      ],
+      include: [{
+          model: User,
+          attributes: ['username'],
+        },
+        {
+          model: Comment,
+          attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+          include: {
+            model: User,
+            attributes: ['username'],
+          },
+        },
+      ],
+    })
+    .then(dbPostData => res.json(dbPostData))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
     });
-    if (affectedRows > 0) {
-    res.status(200).end();
-    } else {
-    res.status(404).end();
-    }
-} catch (err) {
-    res.status(500).json(err);
-}
+});
+// Get a single post
+router.get('/:id', (req, res) => {
+  Post.findOne({
+      where: {
+        id: req.params.id
+      },
+      attributes: ['id', 'content', 'title', 'created_at'],
+      include: [{
+          model: Comment,
+          attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+          include: {
+            model: User,
+            attributes: ['username']
+          }
+        },
+        {
+          model: User,
+          attributes: ['username']
+        }
+      ]
+    })
+    .then(dbPostData => {
+      if (!dbPostData) {
+        res.status(404).json({
+          message: 'No post found with this id'
+        });
+        return;
+      }
+      res.json(dbPostData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+// Create a post
+router.post('/', withAuth, (req, res) => {
+  // expects {title: 'Taskmaster goes public!', post_url: 'https://taskmaster.com/press', user_id: 1}
+  Post.create({
+      title: req.body.title,
+      content: req.body.content,
+      user_id: req.session.user_id
+    })
+    .then(dbPostData => res.json(dbPostData))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+// Update a post
+router.put('/:id', withAuth, (req, res) => {
+  Post.update({
+      title: req.body.title,
+      content: req.body.content
+    }, {
+      where: {
+        id: req.params.id
+      }
+    })
+    .then(dbPostData => {
+      if (!dbPostData) {
+        res.status(404).json({
+          message: 'No post found with this id'
+        });
+        return;
+      }
+      res.json(dbPostData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+//Delete a post
+router.delete('/:id', withAuth, (req, res) => {
+  console.log('id', req.params.id);
+  Post.destroy({
+      where: {
+        id: req.params.id
+      }
+    })
+    .then(dbPostData => {
+      if (!dbPostData) {
+        res.status(404).json({
+          message: 'No post found with this id'
+        });
+        return;
+      }
+      res.json(dbPostData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 module.exports = router;

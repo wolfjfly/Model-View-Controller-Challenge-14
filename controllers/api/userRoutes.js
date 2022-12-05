@@ -1,62 +1,177 @@
-const router = require("express").Router();
-const { User } = require("../../models");
+const router = require('express').Router();
+const {
+  User,
+  Post,
+  Comment
+} = require('../../models');
 
-// CREATE new user
-router.post("/signup", async (req, res) => {
-  try {
-    const mvc_db = await User.create({
+// get all users
+router.get('/', (req, res) => {
+  User.findAll({
+      attributes: {
+        exclude: ['password']
+      }
+    })
+    .then(dbUserData => res.json(dbUserData))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+// Get specific user
+router.get('/:id', (req, res) => {
+  User.findOne({
+      attributes: {
+        exclude: ['password']
+      },
+      where: {
+        id: req.params.id
+      },
+      include: [{
+          model: Post,
+          attributes: ['id', 'title', 'content', 'created_at']
+        },
+        {
+          model: Comment,
+          attributes: ['id', 'comment_text', 'created_at'],
+          include: {
+            model: Post,
+            attributes: ['title']
+          }
+        }
+      ]
+    })
+    .then(dbUserData => {
+      if (!dbUserData) {
+        res.status(404).json({
+          message: 'No user found with this id'
+        });
+        return;
+      }
+      res.json(dbUserData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+// Create a user
+router.post('/', (req, res) => {
+  console.log(req.body)
+  // expects {username: 'Lernantino', password: 'password1234'}
+  User.create({
       username: req.body.username,
-      password: req.body.password,
+      password: req.body.password
+    })
+    .then(dbUserData => {
+      req.session.save(() => {
+        req.session.user_id = dbUserData.id;
+        req.session.username = dbUserData.username;
+        req.session.loggedIn = true;
+
+        res.json(dbUserData);
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
     });
-    req.session.save(() => {
-      req.session.user_id = mvc_db.id;
-      req.session.username = mvc_db.username;
-      req.session.logged_in = true;
-      res.status(200).json({ message: "User successfully created!" });
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
 });
 
-router.post("/login", async (req, res) => {
-  try {
-    const userdb = await User.findOne({
-      where: { username: req.body.username },});
-      
-    if (!userdb) {
-      res
-      console.log('no username')
-        .status(400)
-        .json({ message: "Incorrect username or password, please try again" });
+//login
+router.post('/login', (req, res) => {
+  // expects {username: 'lmartin442', password: 'password1234'}
+  User.findOne({
+    where: {
+      username: req.body.username
+    }
+  }).then(dbUserData => {
+    if (!dbUserData) {
+      res.status(400).json({
+        message: 'No user with that user name!'
+      });
       return;
     }
-    const validPassword = await userdb.checkPassword(req.body.password);
+
+    const validPassword = dbUserData.checkPassword(req.body.password);
+
     if (!validPassword) {
-      res
-        .status(400)
-        .json({ message: "Incorrect username or password, please try again" });
+      res.status(400).json({
+        message: 'Incorrect password!'
+      });
       return;
     }
+
     req.session.save(() => {
-      req.session.user_id = userdb.id;
-      req.session.logged_in = true;
-      res.json({ user: userdb, message: "You are now logged in!" });
+      req.session.user_id = dbUserData.id;
+      req.session.username = dbUserData.username;
+      req.session.loggedIn = true;
+
+      res.json({
+        user: dbUserData,
+        message: 'You are now logged in!'
+      });
     });
-  } catch (err) {
-    res.status(400).json(err);
-  }
+  });
 });
 
-router.post("/logout", (req, res) => {
-  if (req.session.logged_in) {
+//logout
+router.post('/logout', (req, res) => {
+  if (req.session.loggedIn) {
     req.session.destroy(() => {
       res.status(204).end();
     });
   } else {
     res.status(404).end();
   }
+});
+
+router.put('/:id', (req, res) => {
+  // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
+
+  // pass in req.body instead to only update what's passed through
+  User.update(req.body, {
+      individualHooks: true,
+      where: {
+        id: req.params.id
+      }
+    })
+    .then(dbUserData => {
+      if (!dbUserData) {
+        res.status(404).json({
+          message: 'No user found with this id'
+        });
+        return;
+      }
+      res.json(dbUserData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+router.delete('/:id', (req, res) => {
+  User.destroy({
+      where: {
+        id: req.params.id
+      }
+    })
+    .then(dbUserData => {
+      if (!dbUserData) {
+        res.status(404).json({
+          message: 'No user found with this id'
+        });
+        return;
+      }
+      res.json(dbUserData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 module.exports = router;

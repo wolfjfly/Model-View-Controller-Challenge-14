@@ -1,40 +1,28 @@
-const editPost = async (event) => {
-    event.preventDefault()
-    const title = document.querySelector('#title').value.trim();
-    const body = document.querySelector('#body').value.trim();
-    const id = document.querySelector('#post-id').innerHTML;
-    if (title && body) {
-        await fetch(`/api/posts/${id}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                title,
-                body
-            }),
-            headers: {
-                'Content-type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(document.location.replace('/dashboard'))
-        .catch(err => console.log(err))
+async function editFormHandler(event) {
+    event.preventDefault();
+
+    const title = document.querySelector('input[name="post-title"]').value;
+    const content = document.querySelector('textarea[name="post-content"]').value.trim();
+    const post_id = window.location.toString().split('/')[
+        window.location.toString().split('/').length - 1
+    ];
+
+    const response = await fetch(`/api/posts/${post_id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            title,
+            content
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        document.location.replace('/dashboard/');
+    } else {
+        alert(response.statusText);
     }
-};
+}
 
-const deletePost = async (event) => {
-    event.preventDefault()
-    const id = document.querySelector('#post-id').innerHTML;
-        await fetch(`/api/posts/${id}`, {
-            method: 'DELETE'
-        })
-        .then(response => response.json())
-        .then(document.location.replace('/dashboard'))
-        .catch(err => console.log(err))
-    };
-
-document
-.querySelector('#create-post')
-.addEventListener('click', editPost);
-
-document
-.querySelector('#delete-post')
-.addEventListener('click', deletePost);
+document.querySelector('.edit-post-form').addEventListener('submit', editFormHandler);
