@@ -4,7 +4,8 @@
 
 body,
 html {
-  height: 100%;
+  min-height: 100%;
+  width: auto;
   padding: 0;
   margin: 0;
   font-family: sans-serif;
@@ -13,14 +14,14 @@ html {
 
 main,
 .site-name {
-  background-color: #A3D9AA;
+  background-color: #bbdef3e1;
   
 }
 
 a,
 .btn-no-style,
 #comment-subtitle {
-  color: #b8cba2;
+  color: #23c0f0;
 }
 
 a:hover,
@@ -153,11 +154,13 @@ header h1 {
 
 .site-row {
   display: flex;
+  justify-content: flex-start;
   border-bottom: 1px solid #ccc;
-  justify-content: center;
 }
 
 .site-name {
+  display: flex;
+  margin-left: 200px;
   margin-bottom: 10px;
   padding: 0px 10px;
   border-style: double;

@@ -30,7 +30,7 @@ router.get('/', withAuth, (req, res) => {
       }));
       res.render('dashboard', {
         posts,
-        loggedIn: true
+        logged_in: true
       });
     })
     .catch(err => {
@@ -61,10 +61,9 @@ router.get('/edit/:id', withAuth, (req, res) => {
         const post = dbPostData.get({
           plain: true
         });
-
-        res.render('edit-post', {
+        res.render('edit', {
           post,
-          loggedIn: true
+          logged_in: true
         });
       } else {
         res.status(404).end();
@@ -76,8 +75,8 @@ router.get('/edit/:id', withAuth, (req, res) => {
 });
 
 router.get('/new', (req, res) => {
-  res.render('add-post', {
-    loggedIn: true
+  res.render('new', {
+    logged_in: true
   })
 });
 

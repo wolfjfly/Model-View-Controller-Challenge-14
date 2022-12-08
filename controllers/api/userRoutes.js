@@ -1,9 +1,5 @@
 const router = require('express').Router();
-const {
-  User,
-  Post,
-  Comment
-} = require('../../models');
+const {User, Post, Comment} = require('../../models');
 
 // get all users
 router.get('/', (req, res) => {
@@ -68,7 +64,7 @@ router.post('/', (req, res) => {
       req.session.save(() => {
         req.session.user_id = dbUserData.id;
         req.session.username = dbUserData.username;
-        req.session.loggedIn = true;
+        req.session.logged_in = true;
         res.json(dbUserData);
       });
     })
@@ -80,7 +76,6 @@ router.post('/', (req, res) => {
 
 //login
 router.post('/login', (req, res) => {
-  console.log('here1')
   User.findOne({
     where: {
       username: req.body.username
@@ -99,12 +94,10 @@ router.post('/login', (req, res) => {
       });
       return;
     }
-
     req.session.save(() => {
       req.session.user_id = dbUserData.id;
       req.session.username = dbUserData.username;
-      req.session.loggedIn = true;
-
+      req.session.logged_in = true;
       res.json({
         user: dbUserData,
         message: 'You are now logged in!'
@@ -115,12 +108,13 @@ router.post('/login', (req, res) => {
 
 //logout
 router.post('/logout', (req, res) => {
-  if (req.session.loggedIn) {
+  if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
     });
   } else {
     res.status(404).end();
+    console.log('Logged out failed')
   }
 });
 

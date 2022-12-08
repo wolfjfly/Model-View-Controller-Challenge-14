@@ -67,10 +67,10 @@ router.get('/:id', (req, res) => {
 });
 
 // Create a post
-router.post('/', withAuth, (req, res) => {
+router.post('/', (req, res) => {
   Post.create({
-      title: req.body.title,
-      content: req.body.content,
+      post_title: req.body.title,
+      post_body: req.body.content,
       user_id: req.session.user_id
     })
     .then(dbPostData => res.json(dbPostData))
@@ -83,8 +83,8 @@ router.post('/', withAuth, (req, res) => {
 // Update a post
 router.put('/:id', withAuth, (req, res) => {
   Post.update({
-      title: req.body.title,
-      content: req.body.content
+      post_title: req.body.title,
+      post_body: req.body.content
     }, {
       where: {
         id: req.params.id
