@@ -26,7 +26,7 @@ a,
 
 a:hover,
 .btn-no-style:hover {
-  color: #e2edd5;
+  color: #4b6d78;
 }
 
 a {
@@ -64,7 +64,7 @@ textarea,
 input {
   padding: .5%;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(86, 96, 139, 0.734);
 }
 
 textarea:focus,
@@ -192,7 +192,7 @@ main {
 }
 
 .delete-post-btn:hover {
-  background-color: #ff643d;
+  background-color: #7299d42c;
 }
 
 .post {
@@ -223,7 +223,7 @@ main {
 }
 
 .comment:nth-child(odd) {
-  background-color: #fff5eb;
+  background-color: #8c73fb;
 }
 
 .comment .meta {
@@ -256,12 +256,12 @@ main {
 
 .sign-in-link,
 .login-link {
-  color: #2c2307;
+  color: #312455;
 }
 
 .form-heading h1,
 .form-heading h2 {
-  color: #b8cba2;
+  color: #7ddfe3;
 }
 
 .login-form,
